@@ -1,0 +1,248 @@
+/* ─────────────────────────────────────────────────
+   Design Tokens
+───────────────────────────────────────────────── */
+:root {
+    --bg:           #0f1117;
+    --surface:      #1a1d27;
+    --surface-2:    #22263a;
+    --border:       #2e3148;
+    --text:         #e2e8f0;
+    --text-muted:   #8892a4;
+
+    --tcp:          #3b82f6;
+    --udp:          #22c55e;
+    --icmp:         #f97316;
+    --other:        #6b7280;
+
+    --normal:       #22c55e;
+    --suspicious:   #ef4444;
+
+    --btn-success:  #22c55e;
+    --btn-danger:   #ef4444;
+    --btn-primary:  #3b82f6;
+    --btn-warning:  #f59e0b;
+    --btn-secondary:#6b7280;
+
+    --radius:       8px;
+    --shadow:       0 4px 24px rgba(0,0,0,.45);
+}
+
+/* ─────────────────────────────────────────────────
+   Reset & Base
+───────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin:0; padding:0; }
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+}
+
+/* ─────────────────────────────────────────────────
+   Layout
+───────────────────────────────────────────────── */
+.dashboard-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* ─────────────────────────────────────────────────
+   Header
+───────────────────────────────────────────────── */
+header {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: var(--shadow);
+}
+
+.header-left h1 { font-size: 1.4rem; font-weight: 700; letter-spacing: -.5px; }
+.header-left .subtitle { font-size: .8rem; color: var(--text-muted); margin-top: 2px; display: block; }
+
+.stats-panel { display: flex; gap: 12px; }
+
+.stat-box {
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 10px 20px;
+    text-align: center;
+    min-width: 110px;
+}
+.stat-box.stat-normal  { border-color: var(--normal);     }
+.stat-box.stat-suspicious { border-color: var(--suspicious); }
+
+.stat-label { display: block; font-size: .72rem; color: var(--text-muted); margin-bottom: 4px; }
+.stat-value { display: block; font-size: 1.6rem; font-weight: 700; line-height: 1; }
+.stat-box.stat-normal .stat-value  { color: var(--normal); }
+.stat-box.stat-suspicious .stat-value { color: var(--suspicious); }
+
+/* ─────────────────────────────────────────────────
+   Controls + Filters
+───────────────────────────────────────────────── */
+.controls-panel, .filters-panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 12px 18px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+    box-shadow: var(--shadow);
+}
+
+.status-msg {
+    margin-left: auto;
+    font-size: .8rem;
+    color: var(--text-muted);
+    font-style: italic;
+}
+
+.mode-badge {
+    display: none;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: .72rem;
+    font-weight: 700;
+    color: #fff;
+}
+.mode-badge.real       { background: #22c55e; display: inline-block; }
+.mode-badge.simulation { background: #f59e0b; display: inline-block; color: #111; }
+
+label { font-size: .8rem; color: var(--text-muted); white-space: nowrap; }
+
+select, input[type="text"] {
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 7px 10px;
+    color: var(--text);
+    font-size: .85rem;
+    outline: none;
+    transition: border-color .2s;
+}
+select:focus, input:focus { border-color: var(--btn-primary); }
+
+/* ─────────────────────────────────────────────────
+   Buttons
+───────────────────────────────────────────────── */
+.btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: .85rem;
+    cursor: pointer;
+    color: #fff;
+    transition: opacity .2s, transform .1s;
+    white-space: nowrap;
+}
+.btn:hover:not(:disabled) { opacity: .85; transform: translateY(-1px); }
+.btn:disabled { opacity: .4; cursor: not-allowed; }
+
+.btn-success   { background: var(--btn-success);  }
+.btn-danger    { background: var(--btn-danger);   }
+.btn-primary   { background: var(--btn-primary);  }
+.btn-warning   { background: var(--btn-warning);  color: #111; }
+.btn-secondary { background: var(--btn-secondary);}
+
+/* ─────────────────────────────────────────────────
+   Main Content Grid
+───────────────────────────────────────────────── */
+.main-content {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 16px;
+    align-items: start;
+}
+
+/* ─────────────────────────────────────────────────
+   Packet Table
+───────────────────────────────────────────────── */
+.table-container {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    height: 520px;
+    overflow-y: auto;
+    box-shadow: var(--shadow);
+}
+
+.table-container::-webkit-scrollbar { width: 6px; }
+.table-container::-webkit-scrollbar-track { background: var(--surface); }
+.table-container::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+table { width: 100%; border-collapse: collapse; font-size: .83rem; }
+
+thead th {
+    background: var(--surface-2);
+    padding: 10px 14px;
+    text-align: left;
+    font-weight: 600;
+    color: var(--text-muted);
+    font-size: .75rem;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    border-bottom: 1px solid var(--border);
+}
+
+tbody tr {
+    border-bottom: 1px solid var(--border);
+    transition: background .15s;
+}
+tbody tr:hover { background: var(--surface-2); }
+tbody td { padding: 9px 14px; vertical-align: middle; }
+
+/* Suspicious row highlight */
+.row-suspicious { background: rgba(239,68,68,.07) !important; }
+.row-suspicious:hover { background: rgba(239,68,68,.13) !important; }
+
+/* ─────────────────────────────────────────────────
+   Badges
+───────────────────────────────────────────────── */
+.badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: .73rem;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: .03em;
+}
+.badge-tcp       { background: var(--tcp);       }
+.badge-udp       { background: var(--udp);       }
+.badge-icmp      { background: var(--icmp);      }
+.badge-other     { background: var(--other);     }
+.badge-normal    { background: var(--normal);    }
+.badge-suspicious{ background: var(--suspicious);}
+
+/* ─────────────────────────────────────────────────
+   Charts Column
+───────────────────────────────────────────────── */
+.charts-column { display: flex; flex-direction: column; gap: 16px; }
+
+.chart-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px 16px;
+    box-shadow: var(--shadow);
+}
+.chart-card h3 { font-size: .85rem; color: var(--text-muted); margin-bottom: 12px; text-align: center; }
+
+/* ─────────────────────────────────────────────────
+   Tooltip (native title used — no extra CSS needed)
+───────────────────────────────────────────────── */
