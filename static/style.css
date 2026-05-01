@@ -173,7 +173,7 @@ select:focus, input:focus { border-color: var(--btn-primary); }
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    height: 520px;
+    height: 685px;
     overflow-y: auto;
     box-shadow: var(--shadow);
 }
